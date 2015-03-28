@@ -36,4 +36,3 @@ group :development, :test do
   gem 'pry-rails'
   gem 'dotenv-rails'
 end
-
