@@ -1,4 +1,6 @@
 class Build < ActiveRecord::Base
+  has_many :violations, dependent: :destroy
+
   validates :pull_request, presence: true
   validates :repo, presence: true
   validates :user, presence: true
