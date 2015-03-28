@@ -35,4 +35,5 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'pry-rails'
   gem 'dotenv-rails'
+  gem 'webmock'
 end
