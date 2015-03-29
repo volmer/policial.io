@@ -1,7 +1,8 @@
 AllCops:
   RunRailsCops: true
   Exclude:
-    - db/schema.rb
+    - 'db/schema.rb'
+    - 'vendor/**/*'
 
 Style/Documentation:
   Enabled: false
