@@ -6,9 +6,7 @@ class Build < ActiveRecord::Base
   validates :user, presence: true
   validates :sha, presence: true
   validates :payload, presence: true
-  validates :state,
-            presence: true,
-            inclusion: %w(pending success error failure)
+  enum state: [:pending, :success, :error, :failure]
 
   # Public: Populate a new Build based on the given payload.
   #
@@ -30,7 +28,26 @@ class Build < ActiveRecord::Base
     )
   end
 
+  def send_status
+    Octokit.create_status(
+      repo,
+      sha,
+      state,
+      context: Rails.application.config.status_context,
+      target_url: url,
+      description: I18n.t(state, scope: 'build.description')
+    )
+  end
+
   def to_s
     "Build ##{id}"
+  end
+
+  private
+
+  def url
+    Rails.application.routes.url_helpers.build_url(
+      self, Rails.application.config.default_url_options
+    )
   end
 end

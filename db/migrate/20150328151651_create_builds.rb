@@ -5,7 +5,7 @@ class CreateBuilds < ActiveRecord::Migration
       t.string :repo, null: false
       t.string :user, null: false
       t.string :sha, null: false
-      t.string :state, default: 'pending', null: false
+      t.integer :state, default: 0
       t.text :payload, null: false
 
       t.timestamps null: false

@@ -1,0 +1,31 @@
+<h1><%= link_to @build, @build %></h1>
+
+<dl>
+  <dt>Created at</dt>
+  <dd><%= time_tag @build.created_at %></dd>
+
+  <dt>Repo</dt>
+  <dd><%= @build.repo %></dd>
+
+  <dt>Pull Request</dt>
+  <dd><%= @build.pull_request %></dd>
+
+  <dt>Sha</dt>
+  <dd><%= @build.sha %></dd>
+
+  <dt>State</dt>
+  <dd><%= @build.state %></dd>
+</dl>
+
+<% if @build.violations.present? %>
+  <h2>Violations</h2>
+
+  <ul>
+    <% @build.violations.each do |violation| %>
+      <li>
+        <%= violation.filename %> at <%= violation.line_number %>:
+        <%= violation.message %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>

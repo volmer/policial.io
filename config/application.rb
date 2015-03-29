@@ -38,5 +38,7 @@ module PolicialIo
     # A label to differentiate GitHub status sent from this app from the status
     # of other systems.
     config.status_context = 'code-review/policial'
+
+    config.default_url_options = { host: 'localhost', port: 3000 }
   end
 end
