@@ -4,4 +4,4 @@ en:
       pending: 'Your changes are under investigation.'
       success: 'No code style violations were found.'
       error: 'Policial could not complete the investigation.'
-      failed: 'Code style violations found!'
+      failure: 'Code style violations found!'
