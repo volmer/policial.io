@@ -42,6 +42,14 @@ RSpec.describe BuildsController, type: :controller do
         expect(create_status_request).to have_been_requested
       end
 
+      it 'queues an InvestigationJob' do
+        expect(
+          InvestigationJob
+        ).to receive(:perform_later).with(an_instance_of(Build))
+
+        post(:create, payload, format: :json)
+      end
+
       it 'returns :created' do
         post(:create, payload, format: :json)
         expect(response).to have_http_status(:created)
