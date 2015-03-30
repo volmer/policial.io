@@ -17,6 +17,8 @@ class BuildsController < ApplicationController
 
       @build.send_status
 
+      InvestigationJob.perform_later(@build)
+
       render(json: @build, status: :created)
     else
       head(:bad_request)
