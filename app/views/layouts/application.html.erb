@@ -13,6 +13,15 @@
       <div class="navbar-header">
         <%= link_to 'Policial.io', root_path, class: 'navbar-brand' %>
       </div>
+      <div class="navbar-right">
+	<% if current_user %>
+	  <%= link_to "#" do %>
+	    <%= image_tag(current_user.avatar_url, width: 50, height: 50) %>
+	  <% end %>
+	<% else %>
+	  <%= link_to 'Sign in', '/auth/github', class: 'btn btn-default navbar-btn' %>
+	<% end %>
+      </div>
     </div>
   </nav>
 
