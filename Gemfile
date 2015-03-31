@@ -5,6 +5,7 @@ ruby '2.2.1'
 gem 'rails', '4.2.1'
 gem 'pg'
 gem 'policial', github: 'volmer/policial'
+gem 'omniauth-github'
 
 ### Assets
 gem 'sass-rails', '~> 5.0'
