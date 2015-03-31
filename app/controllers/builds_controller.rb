@@ -8,6 +8,7 @@ class BuildsController < ApplicationController
 
   def show
     @build = Build.find(params[:id])
+    @violations = @build.violations.order(filename: :asc, line_number: :asc)
   end
 
   def create

@@ -1,7 +1,27 @@
-<h1>Builds</h1>
+<div class="page-header">
+  <h1>Builds</h1>
+</div>
 
-<ul>
-  <% @builds.each do |build| %>
-    <li><%= link_to build, build %></li>
-  <% end %>
-</ul>
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Repo</th>
+      <th>Pull request</th>
+      <th>Author</th>
+      <th>State</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @builds.each do |build| %>
+      <tr>
+        <td><%= link_to build, build %></td>
+        <td><%= build.repo %></td>
+        <td><%= build.pull_request %></td>
+        <td><%= build.user %></td>
+        <td><%= state_label(build) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -1,31 +1,36 @@
-<h1><%= link_to @build, @build %></h1>
+<div class="page-header">
+  <h1><%= @build %> <%= state_label(@build) %></h1>
+</div>
 
-<dl>
-  <dt>Created at</dt>
-  <dd><%= time_tag @build.created_at %></dd>
+<div class="alert alert-<%= bs_context(@build) %>" role="alert">
+  <%= @build.description %>
+</div>
 
-  <dt>Repo</dt>
-  <dd><%= @build.repo %></dd>
-
+<dl class="dl-horizontal">
   <dt>Pull Request</dt>
-  <dd><%= @build.pull_request %></dd>
+  <dd><%= @build.repo %>#<%= @build.pull_request %></dd>
 
-  <dt>Sha</dt>
+  <dt>Author</dt>
+  <dd><%= @build.user %></dd>
+
+  <dt>Commit</dt>
   <dd><%= @build.sha %></dd>
 
-  <dt>State</dt>
-  <dd><%= @build.state %></dd>
+  <dt>Created at</dt>
+  <dd><%= time_tag @build.created_at %></dd>
 </dl>
 
-<% if @build.violations.present? %>
-  <h2>Violations</h2>
+<% if @violations.present? %>
+  <div class="panel panel-primary">
+    <div class="panel-heading">Violations</div>
 
-  <ul>
-    <% @build.violations.each do |violation| %>
-      <li>
-        <%= violation.filename %> at <%= violation.line_number %>:
-        <%= violation.message %>
-      </li>
-    <% end %>
-  </ul>
-<% end %>
+    <table class="table">
+      <% @violations.each do |violation| %>
+        <tr>
+          <td><%= link_to_line violation %></td>
+          <td><%= violation.message %></td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+<% end%>
