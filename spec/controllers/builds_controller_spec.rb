@@ -54,13 +54,24 @@ RSpec.describe BuildsController, type: :controller do
         post(:create, payload, format: :json)
         expect(response).to have_http_status(:created)
       end
+
+      context 'with ingnorable pull request events' do
+        before do
+          expect_any_instance_of(Policial::PullRequestEvent).to receive(
+            :should_investigate?
+          ).and_return(false)
+        end
+
+        it 'does not create a Build' do
+          expect { post(:create, payload, format: :json) }.not_to change(
+            Build, :count
+          )
+        end
+      end
     end
 
     context 'with invalid params' do
       it 'returns 400 bad request' do
-        post(:create, '{}', format: :json)
-        expect(response).to have_http_status(:bad_request)
-
         post(:create, nil, format: :json)
         expect(response).to have_http_status(:bad_request)
 
