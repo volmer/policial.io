@@ -1,4 +1,5 @@
 class BuildsController < ApplicationController
+  before_action :ensure_suspicious_event, only: :create
   rescue_from(JSON::ParserError) { head(:bad_request) }
 
   def index
@@ -20,5 +21,12 @@ class BuildsController < ApplicationController
     else
       head(:bad_request)
     end
+  end
+
+  private
+
+  def ensure_suspicious_event
+    event = Policial::PullRequestEvent.new(JSON.parse(request.raw_post))
+    render(nothing: true) unless event.should_investigate?
   end
 end
