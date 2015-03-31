@@ -6,3 +6,12 @@ AllCops:
 
 Style/Documentation:
   Enabled: false
+
+Style/GuardClause:
+  Enabled: false
+
+StringLiterals:
+  Enabled: false
+
+AssignmentInCondition:
+  Enabled: false
