@@ -1,0 +1,1 @@
+web: bundle exec puma config.ru -p $PORT -t 1:4
