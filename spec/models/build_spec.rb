@@ -43,4 +43,22 @@ RSpec.describe Build, type: :model do
       expect(build.to_s).to eq('Build #123')
     end
   end
+
+  describe '#description' do
+    it 'is a descriptive text based on the build state' do
+      build.pending!
+      expect(build.description).to eq('Your changes are under investigation.')
+
+      build.success!
+      expect(build.description).to eq('No code style violations were found.')
+
+      build.failure!
+      expect(build.description).to eq('Code style violations found!')
+
+      build.error!
+      expect(build.description).to eq(
+        'Policial could not complete the investigation.'
+      )
+    end
+  end
 end
