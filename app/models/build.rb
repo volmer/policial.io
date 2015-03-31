@@ -15,7 +15,8 @@ class Build < ActiveRecord::Base
   # Returns a new Build with the pull request information.
   def self.from_webhook(payload)
     json = JSON.parse(payload)
-    return unless pull_request = Policial::PullRequestEvent.new(json).pull_request
+    pull_request = Policial::PullRequestEvent.new(json).pull_request
+    return if pull_request.nil?
 
     new(
       pull_request: pull_request.number,
