@@ -34,12 +34,16 @@ class Build < ActiveRecord::Base
       state,
       context: Rails.application.config.status_context,
       target_url: url,
-      description: I18n.t(state, scope: 'build.description')
+      description: description
     )
   end
 
   def to_s
     "Build ##{id}"
+  end
+
+  def description
+    I18n.t(state, scope: 'build.description')
   end
 
   private
