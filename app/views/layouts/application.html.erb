@@ -1,32 +1,31 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Policial.io</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <%= stylesheet_link_tag    'application', media: 'all' %>
-  <%= javascript_include_tag 'application' %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
-  <nav class="navbar navbar-default">
+  <head>
+    <title>Policial.io</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= javascript_include_tag 'application' %>
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
+    <nav class="navbar navbar-default">
+      <div class="container">
+        <div class="navbar-header">
+          <%= link_to 'Policial.io', root_path, class: 'navbar-brand' %>
+        </div>
+        <div class="navbar-right">
+          <% if current_user %>
+            <%= link_to "#" do %>
+              <%= image_tag(current_user.avatar_url, width: 50, height: 50) %>
+            <% end %>
+          <% else %>
+            <%= link_to 'Sign in', '/auth/github', class: 'btn btn-default navbar-btn' %>
+          <% end %>
+        </div>
+      </div>
+    </nav>
     <div class="container">
-      <div class="navbar-header">
-        <%= link_to 'Policial.io', root_path, class: 'navbar-brand' %>
-      </div>
-      <div class="navbar-right">
-	<% if current_user %>
-	  <%= link_to "#" do %>
-	    <%= image_tag(current_user.avatar_url, width: 50, height: 50) %>
-	  <% end %>
-	<% else %>
-	  <%= link_to 'Sign in', '/auth/github', class: 'btn btn-default navbar-btn' %>
-	<% end %>
-      </div>
+      <%= yield %>
     </div>
-  </nav>
-
-  <div class="container">
-    <%= yield %>
-  </div>
-</body>
+  </body>
 </html>
