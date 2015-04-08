@@ -10,8 +10,8 @@ class Repository < ActiveRecord::Base
   def create_webhook
     hook = github_client.create_hook(
       name, 'web',
-      url: webhook_url,
-      content_type: 'json'
+      { url: webhook_url, content_type: 'json' },
+      events: %w(push pull_request)
     )
     self.webhook_id = hook[:id]
   end
