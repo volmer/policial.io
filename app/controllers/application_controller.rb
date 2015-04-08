@@ -2,6 +2,8 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   helper_method :current_user
 
+  add_flash_types :alert, :success
+
   private
 
   def current_user=(user)
