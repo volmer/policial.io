@@ -4,6 +4,7 @@ RSpec.describe BuildsController, type: :controller do
   let(:payload) { File.read('spec/support/payloads/pull_request_opened.json') }
   let(:build) { Build.from_webhook(payload) }
   let(:valid_session) { {} }
+  let!(:repo) { Repository.create!(name: 'volmer/shit') }
 
   describe 'GET #index' do
     it 'returns a successful response' do
