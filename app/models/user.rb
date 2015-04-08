@@ -1,4 +1,4 @@
 class User
   include ActiveModel::Model
-  attr_accessor :token, :name, :avatar_url
+  attr_accessor :token, :name, :avatar_url, :login
 end
