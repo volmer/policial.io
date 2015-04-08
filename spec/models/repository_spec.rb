@@ -11,8 +11,9 @@ RSpec.describe Repository, type: :model do
       expect(github_client).to receive(:create_hook).with(
         'arthurnn/policial.io',
         'web',
-        url: 'http://localhost:4000/builds',
-        content_type: 'json'
+        { url: 'http://localhost:4000/builds',
+          content_type: 'json' },
+        events: %w(push pull_request)
       ).and_return(id: 1)
       repo.save
     end
