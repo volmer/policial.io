@@ -1,10 +1,8 @@
 class AuthController < ApplicationController
   def github
-    self.current_user = User.new(
-      token: auth_hash['credentials']['token'],
-      avatar_url: auth_hash['extra']['raw_info']['avatar_url'],
-      name: auth_hash['extra']['raw_info']['name']
-    )
+    user = auth_hash['extra']['raw_info'].slice(:name, :avatar_url, :login)
+    user[:token] = auth_hash['credentials']['token']
+    self.current_user = User.new(user)
     redirect_to :root
   end
 

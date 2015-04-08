@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe AuthController, type: :controller do
   let(:credentials) do
     { credentials: { token: 'token123' },
-      extra: { raw_info: { name: 'Arthur', avatra_url: '' } }
+      extra: { raw_info: { name: 'Arthur', avatar_url: '', login: 'arthurnn' } }
     }
   end
 
@@ -17,6 +17,8 @@ RSpec.describe AuthController, type: :controller do
   end
 
   describe 'GET #github' do
+    let(:user) { @controller.send(:current_user) }
+
     it 'redirects to home' do
       get :github
       expect(response).to redirect_to(:root)
@@ -30,6 +32,16 @@ RSpec.describe AuthController, type: :controller do
     it 'saves the user as json' do
       get :github
       expect(session[:current_user]).to be_kind_of(Hash)
+    end
+
+    it 'returns the User model' do
+      get :github
+      expect(user).to be_kind_of(User)
+    end
+
+    it 'saves the login' do
+      get :github
+      expect(user.login).to eq('arthurnn')
     end
   end
 
