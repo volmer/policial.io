@@ -12,6 +12,7 @@ RSpec.describe InvestigationJob, type: :job do
       payload: '{}'
     )
   end
+  let!(:repo) { Repository.create!(name: 'org/proj') }
 
   describe '#perform' do
     context 'the investigation does not return violations' do

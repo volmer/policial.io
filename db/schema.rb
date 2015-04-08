@@ -27,6 +27,16 @@ ActiveRecord::Schema.define(version: 20150328162304) do
     t.datetime "updated_at",               null: false
   end
 
+  create_table "repositories", force: :cascade do |t|
+    t.string   "name"
+    t.string   "github_token"
+    t.integer  "webhook_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "repositories", ["name"], name: "index_repositories_on_name", unique: true, using: :btree
+
   create_table "violations", force: :cascade do |t|
     t.string   "filename",    null: false
     t.integer  "line_number", null: false

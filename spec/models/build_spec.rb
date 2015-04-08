@@ -24,15 +24,20 @@ RSpec.describe Build, type: :model do
     it 'creates a status on GitHub using the build attributes' do
       build.save!
 
-      expect(Octokit).to receive(:create_status).with(
+      client = double
+      repository = Repository.new
+      allow(repository).to receive(:github_client).and_return(client)
+
+      expect(client).to receive(:create_status).with(
         'volmer/shit',
         '4569f67a73e273165f993d45c60dbd2ebadae5a6',
         'pending',
         context: 'code-review/policial',
-        target_url: "http://localhost:3000/builds/#{build.id}",
+        target_url: "http://localhost:4000/builds/#{build.id}",
         description: 'Your changes are under investigation.'
       )
 
+      allow(build).to receive(:repository).and_return(repository)
       build.send_status
     end
   end

@@ -1,4 +1,5 @@
 class Build < ActiveRecord::Base
+  belongs_to :repository, foreign_key: 'repo', primary_key: 'name'
   has_many :violations, dependent: :destroy
 
   validates :pull_request, presence: true
@@ -28,7 +29,7 @@ class Build < ActiveRecord::Base
   end
 
   def send_status
-    Octokit.create_status(
+    repository.github_client.create_status(
       repo,
       sha,
       state,
