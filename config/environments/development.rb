@@ -39,4 +39,16 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+
+  host = ENV['HOST']
+  if host
+    config.default_url_options = { host: host }
+  else
+    warn <<-WARN
+HOST env variable is not set.
+You need to have a host in order to make GitHub webhooks work.
+Use `ngrok` to generete an external host, and start the Rails server with that.
+WARN
+    config.default_url_options = { host: 'localhost', port: 3000 }
+  end
 end
