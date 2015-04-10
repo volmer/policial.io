@@ -16,6 +16,7 @@ gem 'bootstrap-sass'
 
 gem 'foreman'
 gem 'puma'
+gem 'rails_12factor', group: :production
 
 group :development, :test do
   gem 'rspec-rails'
