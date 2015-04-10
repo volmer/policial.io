@@ -51,7 +51,7 @@ class Build < ActiveRecord::Base
 
   def url
     Rails.application.routes.url_helpers.build_url(
-      self, Rails.application.config.default_url_options
+      repo, self, Rails.application.config.default_url_options
     )
   end
 end

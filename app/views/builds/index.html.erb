@@ -16,7 +16,7 @@
   <tbody>
     <% @builds.each do |build| %>
       <tr>
-        <td><%= link_to build, build %></td>
+        <td><%= link_to build, build_path(build.repo, build) %></td>
         <td><%= build.repo %></td>
         <td><%= build.pull_request %></td>
         <td><%= build.user %></td>
