@@ -5,5 +5,5 @@ Rails.application.routes.draw do
   get '/auth/github/callback', to: 'auth#github'
   get '/logout', to: 'auth#logout'
 
-  root to: 'builds#index'
+  root to: 'home#index'
 end
