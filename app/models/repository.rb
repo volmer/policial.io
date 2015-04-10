@@ -1,4 +1,6 @@
 class Repository < ActiveRecord::Base
+  has_many :builds, foreign_key: 'repo', primary_key: 'name'
+
   before_create :create_webhook, if: :github_token?
 
   def github_client

@@ -1,9 +1,11 @@
 class BuildsController < ApplicationController
-  before_action :ensure_suspicious_event, only: :create
   rescue_from(JSON::ParserError) { head(:bad_request) }
 
+  before_action :ensure_suspicious_event, only: :create
+  before_action :find_repo, only: [:index, :show]
+
   def index
-    @builds = Build.order(created_at: :desc)
+    @builds = @repo.builds.order(created_at: :desc)
   end
 
   def show
@@ -29,5 +31,9 @@ class BuildsController < ApplicationController
   def ensure_suspicious_event
     event = Policial::PullRequestEvent.new(JSON.parse(request.raw_post))
     render(nothing: true) unless event.should_investigate?
+  end
+
+  def find_repo
+    @repo = Repository.find_by!(name: params[:repo])
   end
 end

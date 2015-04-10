@@ -8,16 +8,27 @@ RSpec.describe BuildsController, type: :controller do
 
   describe 'GET #index' do
     it 'returns a successful response' do
-      get(:index)
+      get :index, repo: 'volmer/shit'
       expect(response).to have_http_status(:success)
+    end
+
+    it 'fails with 404 when repo not found' do
+      get :index, repo: 'foo/bar'
+      expect(response).to have_http_status(:not_found)
     end
   end
 
   describe 'GET #show' do
     it 'returns a successful response' do
       build.save!
-      get(:show, id: build.to_param)
+      get :show, id: build.to_param,  repo: 'volmer/shit'
       expect(response).to have_http_status(:success)
+    end
+
+    it 'fails with 404 when repo not found' do
+      build.save!
+      get :index, id: build.to_param, repo: 'foo/bar'
+      expect(response).to have_http_status(:not_found)
     end
   end
 

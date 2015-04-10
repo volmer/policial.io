@@ -33,7 +33,7 @@ RSpec.describe Build, type: :model do
         '4569f67a73e273165f993d45c60dbd2ebadae5a6',
         'pending',
         context: 'code-review/policial',
-        target_url: "http://localhost:4000/builds/#{build.id}",
+        target_url: "http://localhost:4000/volmer/shit/builds/#{build.id}",
         description: 'Your changes are under investigation.'
       )
 
