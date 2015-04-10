@@ -6,9 +6,8 @@ Rails.application.routes.draw do
   get '/logout', to: 'auth#logout'
 
   resources :builds, only: :create
-  scope '/*repo' do
+  scope '/*repo', repo: /.*/ do
     resources :builds, only: [:index, :show]
-
     root to: 'builds#index', as: :root_s
   end
 end
