@@ -79,7 +79,4 @@ test:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
 production:
-  <<: *default
-  database: policial_io_production
-  username: policial_io
-  password: <%= ENV['POLICIAL_IO_DATABASE_PASSWORD'] %>
+  url: <%= ENV['DATABASE_URL'] %>
