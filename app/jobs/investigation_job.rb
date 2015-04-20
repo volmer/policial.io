@@ -15,10 +15,11 @@ class InvestigationJob < ActiveJob::Base
   private
 
   def investigate(build)
+    detective = Policial::Detective.new(build.repository.github_client)
     event = Policial::PullRequestEvent.new(JSON.parse(build.payload))
-    investigation = Policial::Investigation.new(event.pull_request)
+    detective.brief(event)
 
-    investigation.run
+    detective.investigate
   end
 
   def accuse(build, violations)
