@@ -1,8 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe InvestigationJob, type: :job do
-  let(:job) { described_class.new }
+  before { Repository.create!(name: 'org/proj') }
 
+  let(:job) { described_class.new }
   let(:build) do
     Build.create!(
       repo: 'org/proj',
@@ -12,14 +13,13 @@ RSpec.describe InvestigationJob, type: :job do
       payload: '{}'
     )
   end
-  let!(:repo) { Repository.create!(name: 'org/proj') }
 
   describe '#perform' do
     context 'the investigation does not return violations' do
       before do
         allow_any_instance_of(
-          Policial::Investigation
-        ).to receive(:run).and_return([])
+          Policial::Detective
+        ).to receive(:investigate).and_return([])
       end
 
       let!(:success_status_request) do
@@ -59,8 +59,8 @@ RSpec.describe InvestigationJob, type: :job do
         ]
 
         allow_any_instance_of(
-          Policial::Investigation
-        ).to receive(:run).and_return(violations)
+          Policial::Detective
+        ).to receive(:investigate).and_return(violations)
       end
 
       let!(:failure_status_request) do
