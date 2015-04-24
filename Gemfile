@@ -22,5 +22,9 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'pry-rails'
   gem 'dotenv-rails'
+end
+
+group :test do
+  gem 'capybara'
   gem 'webmock', require: false
 end
