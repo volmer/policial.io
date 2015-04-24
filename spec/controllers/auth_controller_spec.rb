@@ -45,13 +45,13 @@ RSpec.describe AuthController, type: :controller do
     end
   end
 
-  describe 'GET #logout' do
+  describe 'GET #sign_out' do
     before do
       session[:current_user] = User.new(token: 'foobar').as_json
     end
 
     it 'cleans the user session' do
-      get :logout
+      get :sign_out
       expect(session[:current_user]).to be_nil
     end
   end
