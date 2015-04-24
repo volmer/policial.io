@@ -3,23 +3,17 @@
 </div>
 
 <table class="table table-bordered table-striped">
-  <thead>
-    <tr>
-      <th>Repo</th>
-      <th>State</th>
+  <% @repositories.each do |repo| %>
+    <tr data-repo="<%= repo.name %>">
+      <td><%= repo.name %></td>
+      <td>
+        <% if repo.persisted? %>
+          <%= link_to 'Disable', repo, method: :delete, class: 'btn btn-default' %>
+        <% else %>
+          <%= link_to 'Enable', repositories_path(repository: { name: repo.name }),
+            method: :post, class: 'btn btn-primary' %>
+        <% end %>
+      </td>
     </tr>
-  </thead>
-
-  <tbody>
-    <% @repositories.each do |repo| %>
-      <tr>
-        <td><%= repo.name %></td>
-        <td>
-          <% unless repo.persisted? %>
-            <%= link_to "Create", repositories_path(repo: repo.name), method: :post %>
-          <% end %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
+  <% end %>
 </table>
