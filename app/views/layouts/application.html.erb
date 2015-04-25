@@ -13,15 +13,16 @@
         <div class="navbar-header">
           <%= link_to 'Policial.io', root_path, class: 'navbar-brand' %>
         </div>
-        <div class="navbar-right">
+
+        <p class="navbar-text navbar-right">
           <% if current_user %>
-            <%= link_to "#" do %>
-              <%= image_tag(current_user.avatar_url, width: 50, height: 50) %>
-            <% end %>
+            <%= image_tag current_user.avatar_url %>
+            <%= current_user.name %> ·
+            <%= link_to 'Sign out', sign_out_path, class: 'navbar-link' %>
           <% else %>
-            <%= link_to 'Sign in', '/auth/github', class: 'btn btn-default navbar-btn' %>
+            <%= link_to 'Sign in', '/auth/github', class: 'navbar-link' %>
           <% end %>
-        </div>
+        </p>
       </div>
     </nav>
     <div class="container">
