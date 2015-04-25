@@ -28,8 +28,6 @@ class ApplicationController < ActionController::Base
   end
 
   def require_login
-    return if current_user.present?
-    flash[:notice] = 'Please login.'
-    redirect_to :root
+    render 'repositories/guest_index' if current_user.blank?
   end
 end

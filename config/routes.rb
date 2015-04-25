@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
-  root to: 'home#index'
-  resources :repositories, only: [:index, :create]
+  root to: 'repositories#index'
+  resources :repositories, only: [:index, :create, :destroy]
 
   get '/auth/github/callback', to: 'auth#github'
-  get '/logout', to: 'auth#logout'
+  get '/sign_out', to: 'auth#sign_out', as: :sign_out
 
   resources :builds, only: :create
   scope '/*repo', repo: /.*/ do
