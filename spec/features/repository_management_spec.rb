@@ -3,7 +3,7 @@ require 'rails_helper'
 feature 'Repository Management' do
   background do
     OmniAuth.config.mock_auth[:github] = {
-      extra: { raw_info: { name: 'Krystosterone' } },
+      uid: 123, info: { name: 'Krystosterone' },
       credentials: { token: '123abc' }
     }
     allow_any_instance_of(Octokit::Client).to receive_messages(
