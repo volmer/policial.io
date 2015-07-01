@@ -2,10 +2,11 @@ source 'https://rubygems.org'
 
 ruby '2.2.2'
 
-gem 'rails', '4.2.1'
+gem 'rails', '4.2.3'
 gem 'pg'
 gem 'policial', github: 'volmer/policial'
 gem 'omniauth-github'
+gem 'devise'
 
 ### Assets
 gem 'sass-rails', '~> 5.0'
