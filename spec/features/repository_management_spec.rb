@@ -7,7 +7,7 @@ feature 'Repository Management' do
       credentials: { token: '123abc' }
     }
     allow_any_instance_of(Octokit::Client).to receive_messages(
-      repositories: [double(full_name: 'volmer/repo')],
+      repositories: [double(full_name: 'volmer/repo', private: false)],
       create_hook: {}
     )
     visit '/'

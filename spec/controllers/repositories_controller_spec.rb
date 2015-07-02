@@ -2,10 +2,9 @@ require 'rails_helper'
 
 RSpec.describe RepositoriesController, type: :controller do
   let(:valid_attributes) { { name: 'volmer/repo' } }
+  let(:current_user) { User.create!(uid: 123) }
 
-  before do
-    sign_in User.create!(uid: 123)
-  end
+  before { sign_in(current_user) }
 
   describe 'GET #index' do
     it 'returns a successful response' do
@@ -57,16 +56,27 @@ RSpec.describe RepositoriesController, type: :controller do
   describe 'DELETE #destroy' do
     let!(:repository) { Repository.create!(valid_attributes) }
 
-    it 'destroys the requested repository' do
-      expect do
+    context 'current user has access to the repository' do
+      before { current_user.repositories << repository }
+
+      it 'destroys the requested repository' do
+        expect do
+          delete :destroy, id: repository.to_param
+        end.to change(Repository, :count).by(-1)
+      end
+
+      it 'redirects to the repository list with a successful message' do
         delete :destroy, id: repository.to_param
-      end.to change(Repository, :count).by(-1)
+        expect(response).to redirect_to(repositories_url)
+        expect(flash[:success]).to eq('Repository disabled.')
+      end
     end
 
-    it 'redirects to the repository list with a successful message' do
-      delete :destroy, id: repository.to_param
-      expect(response).to redirect_to(repositories_url)
-      expect(flash[:success]).to eq('Repository disabled.')
+    context 'current user does not have access to the repository' do
+      it 'returns 404 not found' do
+        delete :destroy, id: repository.to_param
+        expect(response).to have_http_status(:not_found)
+      end
     end
   end
 end

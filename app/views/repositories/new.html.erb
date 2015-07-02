@@ -7,7 +7,7 @@
     <tr data-repo="<%= repo.full_name %>">
       <td><%= repo.full_name %></td>
       <td>
-        <%= link_to 'Enable', repositories_path(repository: { name: repo.full_name }),
+        <%= link_to 'Enable', repositories_path(repository: { name: repo.full_name, private: repo.private }),
           method: :post, class: 'btn btn-primary' %>
       </td>
     </tr>

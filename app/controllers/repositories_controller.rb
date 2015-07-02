@@ -1,5 +1,6 @@
 class RepositoriesController < ApplicationController
   before_action :require_login
+  before_action :find_repository, :ensure_access, only: :destroy
 
   def index
     @repositories = current_user.repositories.order(name: :asc)
@@ -22,7 +23,6 @@ class RepositoriesController < ApplicationController
   end
 
   def destroy
-    @repository = Repository.find(params[:id])
     @repository.destroy!
     redirect_to repositories_url, success: 'Repository disabled.'
   end
@@ -30,6 +30,10 @@ class RepositoriesController < ApplicationController
   private
 
   def repository_params
-    params.require(:repository).permit(:name)
+    params.require(:repository).permit(:name, :private)
+  end
+
+  def find_repository
+    @repository = Repository.find(params[:id])
   end
 end
