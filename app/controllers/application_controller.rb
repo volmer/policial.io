@@ -6,6 +6,10 @@ class ApplicationController < ActionController::Base
 
   rescue_from(ActiveRecord::RecordNotFound) { render_404 }
 
+  def new_session_path(_scope)
+    new_user_session_path
+  end
+
   private
 
   def render_404
@@ -20,5 +24,10 @@ class ApplicationController < ActionController::Base
 
   def require_login
     render 'repositories/guest_index' unless user_signed_in?
+  end
+
+  def ensure_access
+    return if user_signed_in? && current_user.repositories.include?(@repository)
+    render_404
   end
 end
