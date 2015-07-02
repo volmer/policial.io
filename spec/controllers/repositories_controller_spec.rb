@@ -4,7 +4,7 @@ RSpec.describe RepositoriesController, type: :controller do
   let(:valid_attributes) { { name: 'volmer/repo' } }
 
   before do
-    sign_in User.create!(uid: 123, token: '123abc')
+    sign_in User.create!(uid: 123)
   end
 
   describe 'GET #index' do
@@ -12,6 +12,15 @@ RSpec.describe RepositoriesController, type: :controller do
       allow_any_instance_of(Octokit::Client).to receive(
         :repositories).and_return([])
       get :index
+      expect(response).to have_http_status(:success)
+    end
+  end
+
+  describe 'GET #new' do
+    it 'returns a successful response' do
+      allow_any_instance_of(Octokit::Client).to receive(
+        :repositories).and_return([])
+      get :new
       expect(response).to have_http_status(:success)
     end
   end

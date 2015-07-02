@@ -15,14 +15,19 @@ feature 'Repository Management' do
   end
 
   scenario 'Enable repository' do
+    click_on 'Add repository'
     within('[data-repo="volmer/repo"]') { click_on 'Enable' }
+
     expect(page).to have_content('Repository assimilated.')
   end
 
   scenario 'Disable repository' do
-    Repository.create!(name: 'volmer/repo')
+    repo = Repository.create!(name: 'volmer/repo')
+    User.find_by(uid: '123').repositories << repo
+
     visit '/'
     within('[data-repo="volmer/repo"]') { click_on 'Disable' }
+
     expect(page).to have_content('Repository disabled.')
   end
 end
