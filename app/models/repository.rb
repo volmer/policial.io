@@ -1,4 +1,5 @@
 class Repository < ActiveRecord::Base
+  has_and_belongs_to_many :users
   has_many :builds, foreign_key: 'repo', primary_key: 'name'
 
   validates :name, presence: true, uniqueness: true

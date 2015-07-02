@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   end
 
   root to: 'repositories#index'
-  resources :repositories, only: [:index, :create, :destroy]
+  resources :repositories, only: [:index, :new, :create, :destroy]
   resources :builds, only: :create
   scope '/*repo', repo: /.*/ do
     resources :builds, only: [:index, :show]
