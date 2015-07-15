@@ -16,11 +16,11 @@
 
         <p class="navbar-text navbar-right">
           <% if current_user %>
-            <%= image_tag current_user.avatar_url %>
+            <%= image_tag current_user.image %>
             <%= current_user.name %> ·
-            <%= link_to 'Sign out', sign_out_path, class: 'navbar-link' %>
+            <%= link_to 'Sign out', destroy_user_session_path, class: 'navbar-link', method: :delete %>
           <% else %>
-            <%= link_to 'Sign in', '/auth/github', class: 'navbar-link' %>
+            <%= link_to 'Sign in', user_omniauth_authorize_path(:github), class: 'navbar-link' %>
           <% end %>
         </p>
       </div>

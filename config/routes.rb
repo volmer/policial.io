@@ -1,10 +1,12 @@
 Rails.application.routes.draw do
+  devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks' }
+  devise_scope :user do
+    get 'sign_in', to: 'devise/sessions#new', as: :new_user_session
+    delete 'sign_out', to: 'devise/sessions#destroy', as: :destroy_user_session
+  end
+
   root to: 'repositories#index'
-  resources :repositories, only: [:index, :create, :destroy]
-
-  get '/auth/github/callback', to: 'auth#github'
-  get '/sign_out', to: 'auth#sign_out', as: :sign_out
-
+  resources :repositories, only: [:index, :new, :create, :destroy]
   resources :builds, only: :create
   scope '/*repo', repo: /.*/ do
     resources :builds, only: [:index, :show]

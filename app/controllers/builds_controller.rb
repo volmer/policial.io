@@ -2,10 +2,10 @@ class BuildsController < ApplicationController
   rescue_from(JSON::ParserError) { head(:bad_request) }
 
   before_action :ensure_suspicious_event, only: :create
-  before_action :find_repo, only: [:index, :show]
+  before_action :find_repository, :ensure_private_access, only: [:index, :show]
 
   def index
-    @builds = @repo.builds.order(created_at: :desc)
+    @builds = @repository.builds.order(created_at: :desc)
   end
 
   def show
@@ -33,7 +33,12 @@ class BuildsController < ApplicationController
     render(nothing: true) unless event.should_investigate?
   end
 
-  def find_repo
-    @repo = Repository.find_by!(name: params[:repo])
+  def find_repository
+    @repository = Repository.find_by!(name: params[:repo])
+  end
+
+  def ensure_private_access
+    return unless @repository.private?
+    ensure_access
   end
 end

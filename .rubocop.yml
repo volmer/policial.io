@@ -1,8 +1,10 @@
 AllCops:
   RunRailsCops: true
   Exclude:
-    - 'db/schema.rb'
+    - 'db/**/*'
     - 'vendor/**/*'
 
 Style/Documentation:
+  Enabled: false
+Rails/HasAndBelongsToMany:
   Enabled: false

@@ -1,9 +1,11 @@
 class Repository < ActiveRecord::Base
+  has_and_belongs_to_many :users
   has_many :builds, foreign_key: 'repo', primary_key: 'name'
 
   validates :name, presence: true, uniqueness: true
 
   before_create :create_webhook, if: :github_token?
+  before_destroy :remove_webhook, if: :github_token?
 
   def github_client
     Octokit::Client.new(access_token: github_token)
@@ -24,5 +26,9 @@ class Repository < ActiveRecord::Base
     Rails.application.routes.url_helpers.builds_url(
       Rails.application.config.default_url_options
     )
+  end
+
+  def remove_webhook
+    github_client.remove_hook(name, webhook_id)
   end
 end

@@ -6,6 +6,10 @@ class ApplicationController < ActionController::Base
 
   rescue_from(ActiveRecord::RecordNotFound) { render_404 }
 
+  def new_session_path(_scope)
+    new_user_session_path
+  end
+
   private
 
   def render_404
@@ -18,16 +22,12 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def current_user=(user)
-    session[:current_user] = user.as_json
-  end
-
-  def current_user
-    current_user_hash = session[:current_user]
-    User.new(current_user_hash) if current_user_hash.present?
-  end
-
   def require_login
-    render 'repositories/guest_index' if current_user.blank?
+    render 'repositories/guest_index' unless user_signed_in?
+  end
+
+  def ensure_access
+    return if user_signed_in? && current_user.repositories.include?(@repository)
+    render_404
   end
 end

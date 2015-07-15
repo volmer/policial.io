@@ -1,0 +1,17 @@
+<div class="page-header">
+  <h1>Add repository</h1>
+</div>
+
+<table class="table table-bordered table-striped">
+  <% @repositories.each do |repo| %>
+    <tr data-repo="<%= repo.full_name %>">
+      <td><%= repo.full_name %></td>
+      <td>
+        <%= link_to 'Enable', repositories_path(repository: { name: repo.full_name, private: repo.private }),
+          method: :post, class: 'btn btn-primary' %>
+      </td>
+    </tr>
+  <% end %>
+</table>
+
+<%= link_to 'Back', repositories_path, class: 'btn btn-default' %>
