@@ -2,13 +2,26 @@
   <h1>Repositories</h1>
 </div>
 
-<table class="table table-bordered table-striped">
-  <% @repositories.each do |repo| %>
-    <tr data-repo="<%= repo.name %>">
-      <td><%= repo.name %></td>
-      <td><%= link_to 'Disable', repo, method: :delete, class: 'btn btn-default' %></td>
-    </tr>
-  <% end %>
-</table>
+<% @repositories.each do |repository| %>
+  <div class="panel panel-default" data-repo="<%= repository.name %>">
+    <div class="panel-heading">
+      <h3 class="panel-title"><%= link_to repository, repository %></h3>
+    </div>
+
+    <table class="table table-bordered">
+      <% repository.builds.limit(5).each do |build| %>
+        <tr>
+          <td><strong><%= link_to build, build_path(repository, build) %></strong></td>
+          <td>#<%= build.pull_request %></td>
+          <td><%= build.user %></td>
+          <td><%= build.sha %></td>
+          <td><%= time_tag build.created_at %></td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+<% end %>
+
+
 
 <%= link_to 'Add repository', new_repository_path, class: 'btn btn-primary btn-lg' %>

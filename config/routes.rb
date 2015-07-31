@@ -5,11 +5,15 @@ Rails.application.routes.draw do
     delete 'sign_out', to: 'devise/sessions#destroy', as: :destroy_user_session
   end
 
-  root to: 'repositories#index'
-  resources :repositories, only: [:index, :new, :create, :destroy]
   resources :builds, only: :create
-  scope '/*repo', repo: /.*/ do
-    resources :builds, only: [:index, :show]
-    root to: 'builds#index', as: :root_s
+
+  resources :repositories, only: [:index, :new, :create]
+  get '/*id', id: %r{\w+/\w+}, to: 'repositories#show', as: 'repository'
+  delete '/*id', id: %r{\w+/\w+}, to: 'repositories#destroy'
+
+  scope '/*repository_id', repository_id: /.*/ do
+    resources :builds, only: :show
   end
+
+  root 'repositories#index'
 end
