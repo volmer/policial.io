@@ -1,5 +1,5 @@
 <div class="page-header">
-  <h1><%= @build %> <%= state_label(@build) %></h1>
+  <h1><%= link_to @build, build_path(@repository, @build) %> <%= state_label(@build) %></h1>
 </div>
 
 <div class="alert alert-<%= bs_context(@build) %>" role="alert">
@@ -7,14 +7,17 @@
 </div>
 
 <dl class="dl-horizontal">
+  <dt>Repository</dt>
+  <dd><%= link_to @repository, @repository %></dd>
+
   <dt>Pull Request</dt>
-  <dd><%= @build.repo %>#<%= @build.pull_request %></dd>
+  <dd><%= link_to_pull_request @build %></dd>
 
   <dt>Author</dt>
-  <dd><%= @build.user %></dd>
+  <dd><%= link_to_author @build %></dd>
 
   <dt>Commit</dt>
-  <dd><%= @build.sha %></dd>
+  <dd><%= link_to_sha @build %></dd>
 
   <dt>Created at</dt>
   <dd><%= time_tag @build.created_at %></dd>

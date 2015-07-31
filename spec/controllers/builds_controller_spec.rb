@@ -6,51 +6,16 @@ RSpec.describe BuildsController, type: :controller do
   let(:valid_session) { {} }
   let!(:repo) { Repository.create!(name: 'volmer/shit') }
 
-  describe 'GET #index' do
-    it 'returns a successful response' do
-      get :index, repo: 'volmer/shit'
-      expect(response).to have_http_status(:success)
-    end
-
-    it 'fails with 404 when repo not found' do
-      get :index, repo: 'foo/bar'
-      expect(response).to have_http_status(:not_found)
-    end
-
-    context 'with a build from a private repository' do
-      before { repo.update!(private: true) }
-
-      it 'returns 404 when user is not signed in' do
-        get :index, repo: 'volmer/shit'
-        expect(response).to have_http_status(:not_found)
-      end
-
-      it 'returns 404 when user does not have access to the repository' do
-        sign_in(User.create!(uid: 123))
-        get :index, repo: 'volmer/shit'
-        expect(response).to have_http_status(:not_found)
-      end
-
-      it 'returns success when user has access to the repository' do
-        user = User.create!(uid: 123)
-        sign_in(user)
-        repo.users << user
-        get :index, repo: 'volmer/shit'
-        expect(response).to have_http_status(:success)
-      end
-    end
-  end
-
   describe 'GET #show' do
     before { build.save! }
 
     it 'returns a successful response' do
-      get :show, id: build.to_param, repo: 'volmer/shit'
+      get :show, id: build.to_param, repository_id: 'volmer/shit'
       expect(response).to have_http_status(:success)
     end
 
     it 'fails with 404 when repo not found' do
-      get :index, id: build.to_param, repo: 'foo/bar'
+      get :show, id: build.to_param, repository_id: 'foo/bar'
       expect(response).to have_http_status(:not_found)
     end
 
@@ -58,13 +23,13 @@ RSpec.describe BuildsController, type: :controller do
       before { repo.update!(private: true) }
 
       it 'returns 404 when user is not signed in' do
-        get :show, id: build.to_param, repo: 'volmer/shit'
+        get :show, id: build.to_param, repository_id: 'volmer/shit'
         expect(response).to have_http_status(:not_found)
       end
 
       it 'returns 404 when user does not have access to the repository' do
         sign_in(User.create!(uid: 123))
-        get :show, id: build.to_param, repo: 'volmer/shit'
+        get :show, id: build.to_param, repository_id: 'volmer/shit'
         expect(response).to have_http_status(:not_found)
       end
 
@@ -72,7 +37,7 @@ RSpec.describe BuildsController, type: :controller do
         user = User.create!(uid: 123)
         sign_in(user)
         repo.users << user
-        get :show, id: build.to_param,  repo: 'volmer/shit'
+        get :show, id: build.to_param,  repository_id: 'volmer/shit'
         expect(response).to have_http_status(:success)
       end
     end

@@ -1,6 +1,6 @@
 class RepositoriesController < ApplicationController
   before_action :require_login
-  before_action :find_repository, :ensure_access, only: :destroy
+  before_action :find_repository, :ensure_access, only: [:show, :destroy]
 
   def index
     @repositories = current_user.repositories.order(name: :asc)
@@ -8,6 +8,10 @@ class RepositoriesController < ApplicationController
 
   def new
     @repositories = current_user.new_repositories
+  end
+
+  def show
+    @builds = @repository.builds.order(created_at: :desc)
   end
 
   def create
@@ -34,6 +38,6 @@ class RepositoriesController < ApplicationController
   end
 
   def find_repository
-    @repository = Repository.find(params[:id])
+    @repository = Repository.find_by!(name: params[:id])
   end
 end
