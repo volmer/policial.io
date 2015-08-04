@@ -40,4 +40,16 @@ RSpec.describe Repository, type: :model do
       repo.destroy!
     end
   end
+
+  describe '#to_param' do
+    it 'is the repository name' do
+      expect(repo.to_param).to eq('arthurnn/policial.io')
+    end
+  end
+
+  describe '#to_s' do
+    it 'is the repository name' do
+      expect(repo.to_s).to eq('arthurnn/policial.io')
+    end
+  end
 end

@@ -26,7 +26,8 @@ feature 'Repository Management' do
     User.find_by(uid: '123').repositories << repo
 
     visit '/'
-    within('[data-repo="volmer/repo"]') { click_on 'Disable' }
+    click_on 'volmer/repo'
+    click_on 'Disable'
 
     expect(page).to have_content('Repository disabled.')
   end

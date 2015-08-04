@@ -79,4 +79,24 @@ RSpec.describe RepositoriesController, type: :controller do
       end
     end
   end
+
+  describe 'GET #show' do
+    let!(:repository) { Repository.create!(valid_attributes) }
+
+    it 'fails with 404 when repo not found' do
+      get :show, id: 'non/ecziste'
+      expect(response).to have_http_status(:not_found)
+    end
+
+    it 'returns 404 when user does not have access to the repository' do
+      get :show, id: repository.to_param
+      expect(response).to have_http_status(:not_found)
+    end
+
+    it 'returns success when user has access to the repository' do
+      repository.users << current_user
+      get :show, id: repository.to_param
+      expect(response).to have_http_status(:success)
+    end
+  end
 end

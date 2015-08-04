@@ -11,6 +11,14 @@ class Repository < ActiveRecord::Base
     Octokit::Client.new(access_token: github_token)
   end
 
+  def to_param
+    name
+  end
+
+  def to_s
+    name
+  end
+
   private
 
   def create_webhook
